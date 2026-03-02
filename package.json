@@ -1,0 +1,64 @@
+{
+  "name": "cashkr-laptop-auto-detect",
+  "version": "1.0.0",
+  "description": "Auto-detect laptop hardware specs for Cashkr",
+  "main": "dist/main.js",
+  "scripts": {
+    "build:ts": "tsc",
+    "start": "tsc && electron .",
+    "build": "tsc && electron-builder",
+    "build:mac": "tsc && electron-builder -m",
+    "build:win": "tsc && electron-builder -w"
+  },
+  "keywords": [],
+  "author": "Cashkr",
+  "license": "ISC",
+  "packageManager": "pnpm@10.19.0",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "electron": "^40.6.1",
+    "electron-builder": "^26.8.1",
+    "typescript": "^5.7.0"
+  },
+  "build": {
+    "appId": "com.cashkr.laptopdetect",
+    "productName": "Cashkr Hardware Detector",
+    "icon": "assets/favicon.png",
+    "files": [
+      "dist/*.js",
+      "index.html",
+      "styles.css",
+      "assets/**/*",
+      ".env",
+      ".env.production",
+      "!dist/mac-arm64/**/*",
+      "!dist/win-arm64-unpacked/**/*",
+      "!dist/*.exe",
+      "!dist/*.dmg",
+      "!dist/*.zip"
+    ],
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.icns"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/favicon.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "runAfterFinish": true
+    }
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1"
+  }
+}

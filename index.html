@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cashkr Hardware Detector</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="content-wrapper">
+
+      <!-- Header with Logo -->
+      <div class="header">
+        <img src="assets/logo.png" alt="Cashkr" class="logo" id="appLogo">
+        <div class="trust-badge">
+          <i data-lucide="shield-check" class="trust-icon"></i>
+          <span>Your data is securely encrypted</span>
+        </div>
+      </div>
+
+      <!-- Step Progress -->
+      <div class="step-progress">
+        <div class="step active" id="step1">
+          <div class="step-dot">1</div>
+          <span>Enter Code</span>
+        </div>
+        <div class="step-line" id="stepLine1"></div>
+        <div class="step" id="step2">
+          <div class="step-dot">2</div>
+          <span>Verify</span>
+        </div>
+        <div class="step-line" id="stepLine2"></div>
+        <div class="step" id="step3">
+          <div class="step-dot">3</div>
+          <span>Connected</span>
+        </div>
+      </div>
+
+      <!-- Form Section -->
+      <div class="form-section" id="formSection">
+        <p class="form-subtitle">Enter your 6-digit pairing code from Cashkr website</p>
+        <form id="pairForm">
+          <div class="form-group">
+            <label for="pairingCode">Pairing Code</label>
+            <div class="input-wrapper">
+              <i data-lucide="lock" class="input-icon"></i>
+              <input type="text" id="pairingCode" maxlength="6" placeholder="e.g. 123456" required>
+            </div>
+          </div>
+          <button type="submit" id="proceedBtn">
+            <i data-lucide="scan" class="btn-icon"></i>
+            <span>Proceed & Detect</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Loading / Detecting Section -->
+      <div id="statusContainer" class="status-container hidden">
+        <div class="detecting-header">
+          <div class="spinner"></div>
+          <p id="statusText">Verifying pairing code...</p>
+        </div>
+
+        <!-- Skeleton Cards -->
+        <div class="spec-grid">
+          <div class="spec-card skeleton-card">
+            <div class="spec-card-header">
+              <i data-lucide="laptop" class="spec-icon"></i>
+              <span class="spec-label">Model</span>
+            </div>
+            <div class="skeleton-line"></div>
+          </div>
+          <div class="spec-card skeleton-card">
+            <div class="spec-card-header">
+              <i data-lucide="cpu" class="spec-icon"></i>
+              <span class="spec-label">Processor</span>
+            </div>
+            <div class="skeleton-line"></div>
+          </div>
+          <div class="spec-card skeleton-card">
+            <div class="spec-card-header">
+              <i data-lucide="memory-stick" class="spec-icon"></i>
+              <span class="spec-label">RAM</span>
+            </div>
+            <div class="skeleton-line"></div>
+          </div>
+          <div class="spec-card skeleton-card">
+            <div class="spec-card-header">
+              <i data-lucide="hard-drive" class="spec-icon"></i>
+              <span class="spec-label">Storage</span>
+            </div>
+            <div class="skeleton-line"></div>
+          </div>
+          <div class="spec-card skeleton-card">
+            <div class="spec-card-header">
+              <i data-lucide="monitor" class="spec-icon"></i>
+              <span class="spec-label">GPU</span>
+            </div>
+            <div class="skeleton-line"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Section -->
+      <div id="resultContainer" class="result-container hidden">
+        <div class="success-header">
+          <div class="success-icon-wrapper">
+            <i data-lucide="check-circle-2" class="success-check-icon"></i>
+          </div>
+          <h3>Detection Complete!</h3>
+        </div>
+
+        <div class="spec-grid">
+          <div class="spec-card">
+            <div class="spec-card-header">
+              <i data-lucide="laptop" class="spec-icon"></i>
+              <span class="spec-label">Model</span>
+            </div>
+            <span class="spec-value" id="resModel">—</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-card-header">
+              <i data-lucide="cpu" class="spec-icon"></i>
+              <span class="spec-label">Processor</span>
+            </div>
+            <span class="spec-value" id="resCpu">—</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-card-header">
+              <i data-lucide="memory-stick" class="spec-icon"></i>
+              <span class="spec-label">RAM</span>
+            </div>
+            <span class="spec-value" id="resRam">—</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-card-header">
+              <i data-lucide="hard-drive" class="spec-icon"></i>
+              <span class="spec-label">Storage</span>
+            </div>
+            <span class="spec-value" id="resStorage">—</span>
+          </div>
+          <div class="spec-card">
+            <div class="spec-card-header">
+              <i data-lucide="monitor" class="spec-icon"></i>
+              <span class="spec-label">GPU</span>
+            </div>
+            <span class="spec-value" id="resGpu">—</span>
+          </div>
+        </div>
+
+        <div class="sync-message">
+          <i data-lucide="cloud-check" class="sync-icon"></i>
+          <span>Data successfully synced with Cashkr</span>
+        </div>
+
+        <p class="completion-message"
+          style="text-align: center; margin-top: 24px; font-size: 14px; color: #64748b; line-height: 1.5; padding: 0 16px;">
+          Details successfully sent! You can now close this application and return to your web browser to see your final
+          quote.
+        </p>
+
+        <button id="closeAppBtn"
+          style="margin-top: 16px; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: #e2e8f0; color: #334155; border: none; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer;">
+          <i data-lucide="power" class="btn-icon" style="width: 18px; height: 18px;"></i>
+          <span>Close Application</span>
+        </button>
+      </div>
+
+      <!-- Error Section -->
+      <div id="errorContainer" class="error-container hidden">
+        <i data-lucide="alert-circle" class="error-icon"></i>
+        <p id="errorText">Something went wrong</p>
+        <button id="retryBtn" class="retry-btn">
+          <i data-lucide="refresh-cw" class="btn-icon"></i>
+          <span>Try Again</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="dist/renderer.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+
+</html>
