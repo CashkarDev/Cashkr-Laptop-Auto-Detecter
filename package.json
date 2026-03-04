@@ -8,7 +8,9 @@
     "start": "tsc && electron .",
     "build": "tsc && electron-builder",
     "build:mac": "tsc && electron-builder -m",
-    "build:win": "tsc && electron-builder -w"
+    "build:win": "tsc && electron-builder -w",
+    "build:win:stage": "tsc && electron-builder -w --config.extraMetadata.apiUrl=https://stage.rkhsacweb.cashkr.com/api/qc/laptop",
+    "build:win:prod": "tsc && electron-builder -w --config.extraMetadata.apiUrl=https://www.cashkr.com/api/qc/laptop"
   },
   "keywords": [],
   "author": "Cashkr",

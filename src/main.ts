@@ -31,9 +31,11 @@ function createWindow(): void {
     });
 }
 
-// IPC Handler — return API base URL from env
+// IPC Handler — return API base URL from bundled package.json
 ipcMain.handle('get-api-base', () => {
-    return process.env.API_BASE_URL || 'https://www.cashkr.com/api/qc/laptop';
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const pkg = require(path.join(app.getAppPath(), 'package.json'));
+    return pkg.apiUrl || 'https://www.cashkr.com/api/qc/laptop';
 });
 
 // IPC Handler to close app from Renderer
