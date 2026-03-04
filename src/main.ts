@@ -1,10 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
-import dotenv from 'dotenv';
 import { getHardwareSpecs } from './hardwareDetection';
-
-// Load .env from project root
-dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 // Keep a global reference of the window object to prevent garbage collection
 let mainWindow: BrowserWindow | null = null;

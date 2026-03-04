@@ -24,18 +24,15 @@
     "appId": "com.cashkr.laptopdetect",
     "productName": "Cashkr Hardware Detector",
     "icon": "assets/favicon.png",
+    "asar": true,
+    "compression": "maximum",
     "files": [
       "dist/*.js",
       "index.html",
       "styles.css",
-      "assets/**/*",
-      ".env",
-      ".env.production",
-      "!dist/mac-arm64/**/*",
-      "!dist/win-arm64-unpacked/**/*",
-      "!dist/*.exe",
-      "!dist/*.dmg",
-      "!dist/*.zip"
+      "assets/favicon.png",
+      "assets/icon.icns",
+      "assets/logo.png"
     ],
     "mac": {
       "target": "dmg",
@@ -53,12 +50,11 @@
       "icon": "assets/favicon.png"
     },
     "nsis": {
-      "oneClick": true,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": false,
       "perMachine": false,
       "runAfterFinish": true
     }
   },
-  "dependencies": {
-    "dotenv": "^17.3.1"
-  }
+  "dependencies": {}
 }

@@ -1,6 +1,5 @@
 import os from 'os';
 import { exec } from 'child_process';
-import { StringDecoder } from 'string_decoder';
 
 // ─── Interfaces ───────────────────────────────────────────────
 
@@ -147,17 +146,26 @@ async function getGpu(): Promise<string> {
     }
 }
 
+function cleanModelName(raw: string): string {
+    return raw
+        .replace(/_/g, ' ')                              // underscores → spaces
+        .replace(/\bLaptop\b/gi, '')                     // remove "Laptop" word
+        .replace(/\b[A-Za-z]{0,3}[0-9][A-Za-z0-9]*\b/g, '') // remove model codes (e.g. X515EA, 15eg0xxx)
+        .replace(/\s{2,}/g, ' ')                         // collapse extra spaces
+        .trim();
+}
+
 async function getModel(): Promise<string> {
-    try{
-        if(process.platform ===  'win32'){
+    try {
+        if (process.platform === 'win32') {
             const command = `powershell -NoProfile -Command "(Get-CimInstance Win32_ComputerSystem).Model"`;
             const result = await execPromise(command);
-            return result || "Unknown Model";
+            return result ? cleanModelName(result) : "Unknown Model";
         }
-        return "Unknown Model"
-    } catch(error){
+        return "Unknown Model";
+    } catch (error) {
         console.log("Model Error:", error);
-        return "Error checking Model"
+        return "Error checking Model";
     }
 }
 
