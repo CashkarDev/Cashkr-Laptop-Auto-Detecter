@@ -9,6 +9,7 @@ interface ElectronAPI {
     }>;
     getApiBase: () => Promise<string>;
     closeApp: () => void;
+    onUpdateStatus: (callback: (status: string, percent?: number) => void) => void;
 }
 
 interface Window {
@@ -71,6 +72,32 @@ function showSection(sectionId: string): void {
     // Re-initialize Lucide icons for newly visible sections
     lucide.createIcons();
 }
+
+// ─── Auto-Update Overlay Handler ─────────────────────────────
+
+(window as Window & typeof globalThis).api.onUpdateStatus((status, percent) => {
+    const overlay = document.getElementById('updateOverlay')!;
+    const progressFill = document.getElementById('updateProgressFill')!;
+    const percentText = document.getElementById('updatePercent')!;
+
+    const errorMsg = document.getElementById('updateErrorMsg')!;
+
+    if (status === 'available') {
+        overlay.classList.remove('hidden');
+    } else if (status === 'downloading') {
+        overlay.classList.remove('hidden');
+        const p = Math.round(percent || 0);
+        progressFill.style.width = `${p}%`;
+        percentText.innerText = `${p}%`;
+    } else if (status === 'ready') {
+        progressFill.style.width = '100%';
+        percentText.innerText = '100%';
+    } else if (status === 'error') {
+        overlay.classList.add('hidden');
+        errorMsg.innerText = String(percent || 'Update failed');
+        errorMsg.classList.remove('hidden');
+    }
+});
 
 // ─── Main Form Handler ───────────────────────────────────────
 

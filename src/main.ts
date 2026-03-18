@@ -1,9 +1,11 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
+import { autoUpdater } from 'electron-updater';
 import { getHardwareSpecs } from './hardwareDetection';
 
 // Keep a global reference of the window object to prevent garbage collection
 let mainWindow: BrowserWindow | null = null;
+
 
 function createWindow(): void {
     mainWindow = new BrowserWindow({
@@ -57,6 +59,24 @@ ipcMain.handle('detect-hardware', async () => {
 // App lifecycle
 app.whenReady().then(() => {
     createWindow();
+    autoUpdater.checkForUpdatesAndNotify();
+
+    autoUpdater.on('update-available', () => {
+    mainWindow?.webContents.send('update-status', 'available');
+  });
+    autoUpdater.on('download-progress', (progress) => {
+        mainWindow?.webContents.send('update-status', 'downloading', progress.percent);
+    });
+
+    autoUpdater.on('error', (error) => {
+        mainWindow?.webContents.send('update-status', 'error', error?.message || 'Update failed');
+        console.error('Update error:', error);
+    });
+
+    autoUpdater.on('update-downloaded', () => {
+    mainWindow?.webContents.send('update-status', 'ready');
+    autoUpdater.quitAndInstall(); // auto restart
+    });
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();

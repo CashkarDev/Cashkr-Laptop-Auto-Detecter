@@ -10,7 +10,11 @@
     "build:mac": "tsc && electron-builder -m",
     "build:win": "tsc && electron-builder -w",
     "build:win:stage": "tsc && electron-builder -w --config.extraMetadata.apiUrl=https://stage.rkhsacweb.cashkr.com/api/qc/laptop",
-    "build:win:prod": "tsc && electron-builder -w --config.extraMetadata.apiUrl=https://www.cashkr.com/api/qc/laptop"
+    "build:win:prod": "tsc && electron-builder -w --config.extraMetadata.apiUrl=https://www.cashkr.com/api/qc/laptop",
+    "publish:win": "tsc && electron-builder -w --publish always",
+    "publish:win:stage": "tsc && electron-builder -w --publish always --config.extraMetadata.apiUrl=https://stage.rkhsacweb.cashkr.com/api/qc/laptop",
+    "publish:win:prod": "tsc && electron-builder -w --publish always --config.extraMetadata.apiUrl=https://www.cashkr.com/api/qc/laptop",
+    "publish:mac": "tsc && electron-builder -m --publish always"
   },
   "keywords": [],
   "author": "Cashkr",
@@ -25,6 +29,11 @@
   "build": {
     "appId": "com.cashkr.laptopdetect",
     "productName": "Cashkr Hardware Detector",
+    "publish": {
+      "provider" : "github",
+      "owner": "CashkarDev",
+      "repo": "Cashkr-Laptop-Auto-Detecter"
+    },
     "icon": "assets/favicon.png",
     "asar": true,
     "compression": "maximum",
@@ -60,5 +69,7 @@
       "runAfterFinish": true
     }
   },
-  "dependencies": {}
+  "dependencies": {
+    "electron-updater": "^6.8.3"
+  }
 }

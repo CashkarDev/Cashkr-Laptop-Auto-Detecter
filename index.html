@@ -12,6 +12,21 @@
 </head>
 
 <body>
+  <!-- Update Overlay (blocks entire screen during update) -->
+  <div id="updateOverlay" class="update-overlay hidden">
+    <div class="update-overlay-content">
+      <img src="assets/logo.png" alt="Cashkr" class="update-logo">
+      <div class="update-spinner"></div>
+      <h2 class="update-title">Updating Application...</h2>
+      <p class="update-subtitle">Please wait, do not close the app</p>
+      <div class="update-progress-bar">
+        <div class="update-progress-fill" id="updateProgressFill"></div>
+      </div>
+      <span class="update-percent" id="updatePercent">0%</span>
+      <p class="update-error-msg hidden" id="updateErrorMsg"></p>
+    </div>
+  </div>
+
   <div class="container">
     <div class="content-wrapper">
 
