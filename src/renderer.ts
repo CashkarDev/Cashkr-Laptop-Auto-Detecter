@@ -5,7 +5,6 @@ interface ElectronAPI {
         ram: number;
         storage: { type: string; size: number | string };
         gpu: string;
-        model: string;
     }>;
     getApiBase: () => Promise<string>;
     closeApp: () => void;
@@ -161,7 +160,6 @@ document.getElementById('pairForm')!.addEventListener('submit', async (e: Event)
             body: JSON.stringify({
                 sessionId,
                 specs: {
-                    model: specs.model,
                     cpuModel: specs.processor,
                     ramBytes: specs.ram * 1024 * 1024 * 1024,
                     disks: [{ sizeBytes: Number(specs.storage.size) * 1024 * 1024 * 1024, type: specs.storage.type, isSystemDisk: true }],
@@ -182,7 +180,6 @@ document.getElementById('pairForm')!.addEventListener('submit', async (e: Event)
         setStep(3);
         showSection('resultContainer');
 
-        document.getElementById('resModel')!.innerText = specs.model || 'Unknown';
         document.getElementById('resCpu')!.innerText = specs.processor || 'Unknown';
         document.getElementById('resRam')!.innerText = specs.ram ? `${specs.ram} GB` : 'Unknown';
         document.getElementById('resStorage')!.innerText = specs.storage

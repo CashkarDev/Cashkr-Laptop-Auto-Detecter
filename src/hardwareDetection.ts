@@ -13,7 +13,6 @@ export interface HardwareSpecs {
     ram: number;
     storage: StorageInfo;
     gpu: string;
-    model: string;
 }
 
 interface PhysicalDisk {
@@ -145,30 +144,6 @@ async function getGpu(): Promise<string> {
         return "Error checking GPU";
     }
 }
-
-function cleanModelName(raw: string): string {
-    return raw
-        .replace(/_/g, ' ')                              // underscores → spaces
-        .replace(/\bLaptop\b/gi, '')                     // remove "Laptop" word
-        .replace(/\b[A-Za-z]{0,3}[0-9][A-Za-z0-9]*\b/g, '') // remove model codes (e.g. X515EA, 15eg0xxx)
-        .replace(/\s{2,}/g, ' ')                         // collapse extra spaces
-        .trim();
-}
-
-async function getModel(): Promise<string> {
-    try {
-        if (process.platform === 'win32') {
-            const command = `powershell -NoProfile -Command "(Get-CimInstance Win32_ComputerSystem).Model"`;
-            const result = await execPromise(command);
-            return result ? cleanModelName(result) : "Unknown Model";
-        }
-        return "Unknown Model";
-    } catch (error) {
-        console.log("Model Error:", error);
-        return "Error checking Model";
-    }
-}
-
 // ─── Main Export ──────────────────────────────────────────────
 
 export async function getHardwareSpecs(): Promise<HardwareSpecs> {
@@ -177,13 +152,11 @@ export async function getHardwareSpecs(): Promise<HardwareSpecs> {
 
     const storage = await getStorage();
     const gpu = await getGpu();
-    const model = await getModel();
 
     return {
         processor,
         ram,
         storage,
         gpu,
-        model,
     };
 }
